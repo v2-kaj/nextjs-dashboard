@@ -22,18 +22,13 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
-
-    - name: Install pnpm
-      run: |
-        npm install -g pnpm
-        pnpm --version
+        cache: 'npm'
 
     - name: Install dependencies
-      run: pnpm install
+      run: npm install
 
     - name: Run Grunt tasks
-      run: pnpm grunt
+      run: npm run grunt
 
     - name: Run tests
-      run: pnpm test
+      run: npm test
