@@ -1,27 +1,28 @@
-name: Tests for Next.js app
+name: NodeJS with Webpack
 
 on:
+  push:
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - master
+    branches: [ "master" ]
 
 jobs:
-  NextJS-Tests:
-    name: Tests for Next.js app
+  build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "21"
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: |
-          run: npm install --legacy-peer-deps
-
-      - name: Run Jest tests
-        run: npm test
+    - name: Build
+      run: |
+        npm install
+        npx webpack
